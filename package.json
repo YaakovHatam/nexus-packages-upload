@@ -1,0 +1,19 @@
+{
+   "name": "nexus-packages-upload",
+   "version": "1.0.0",
+   "description": "Packages uploader for Sonatype Nexus Repository Manager",
+   "main": "index.js",
+   "dependencies": {
+      "dotenv": "^16.0.0",
+      "request": "^2.88.2"
+   },
+   "scripts": {},
+   "keywords": [
+      "sonatype-nexus",
+      "nexus-repository",
+      "nexus-repository-manager",
+      "nexus-repository-oss"
+   ],
+   "author": "YaakovHatam",
+   "license": "ISC"
+}
