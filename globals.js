@@ -2,8 +2,12 @@ const base64nexusUserPass = Buffer.from(process.env.NEXUS_USERNAME + ':' + proce
 const nexusUrl = process.env.NEXUS_URL;
 const debug_mode = false;
 
+const fileExtensions = {
+   'nuget': '.nupkg'
+}
 module.exports = {
    base64nexusUserPass,
    nexusUrl,
-   debug_mode
+   debug_mode,
+   fileExtensions
 }

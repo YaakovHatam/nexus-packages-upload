@@ -6,7 +6,7 @@ const globals = require('./globals');
 const dirsAndFilesOps = require('./dirs-and-files-ops');
 
 const uploadToNexus = (nupkgFilePath, repository) => new Promise((resolve, reject) => {
-   const nexusUrl = `${env.nexusUrl}/service/rest/v1/components?repository=${repository}`;
+   const nexusUrl = `${globals.nexusUrl}/service/rest/v1/components?repository=${repository}`;
    const headers = {
       "Authorization": `Basic ${globals.base64nexusUserPass}`
    };
@@ -27,11 +27,15 @@ const uploadToNexus = (nupkgFilePath, repository) => new Promise((resolve, rejec
    form.append('nuget.asset', fs.createReadStream(nupkgFilePath));
 });
 
+const filterRelevant = filePath => dirsAndFilesOps.getFileExtension(filePath).toLowerCase() == globals.fileExtensions.nuget.toLowerCase();
 
 const performBulkUpload = (basePath, nexusRepository) => {
    const BASE_DIR = dirsAndFilesOps.normalizePath(basePath);
-
-   return Promise.all(dirsAndFilesOps.resolveFullPath(BASE_DIR).map(tf => uploadToNexus(tf, nexusRepository)));
+   return dirsAndFilesOps.getDirectoriesRecursive(BASE_DIR)
+      .then(dirs => Promise.all(dirs.map(dir => dirsAndFilesOps.resolveDirectoryContent(dir))))
+      .then(dirs => dirsAndFilesOps.flatten(dirs))
+      .then(dirs => dirs.filter(filterRelevant))
+      .then(filteredFiles => Promise.all(filteredFiles.map(nugetFile => uploadToNexus(nugetFile, nexusRepository))));
 }
 
 module.exports = performBulkUpload;
