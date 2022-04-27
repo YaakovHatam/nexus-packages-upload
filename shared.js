@@ -17,11 +17,9 @@ const uploadToNexus = (repository, files) => new Promise((resolve, reject) => {
          console.warn(err);
          reject('Error!');
       } else if (res.statusCode !== 200) {
-         console.warn(res.statusCode);
          reject('Error: ' + res.statusCode + res.body);
 
       } else {
-         console.log(res.statusCode);
          resolve(files.map(f => f.filepath) + ' success');
       }
    });
