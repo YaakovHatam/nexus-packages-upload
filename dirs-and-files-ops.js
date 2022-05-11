@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const path = require('path');
 
@@ -5,8 +6,9 @@ const unique = arr => [...new Set(arr)];
 
 const flatten = (lists) => lists.reduce((a, b) => a.concat(b), []);
 
-const getDirectories = async source => readdir(source, { withFileTypes: true })
-   .then(dirs => dirs.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name));
+const getDirectories = async source => readdir(source, {
+   withFileTypes: true
+}).then(dirs => dirs.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name));
 
 const getDirectoriesFullPath = srcpath => fs.readdirSync(srcpath)
    .map(file => path.join(srcpath, file))
@@ -46,10 +48,13 @@ function getFileExtension(fileFullPathOrFile) {
    return path.extname(fileFullPathOrFile)
 }
 
+const isPathExist = (baseDir, fileOrFolder) => fs.existsSync(path.join(baseDir, fileOrFolder))
+
 module.exports = {
    getDirectoriesRecursive,
    resolveDirectoryContent,
    normalizePath,
    getFileExtension,
-   flatten
+   flatten,
+   isPathExist
 }

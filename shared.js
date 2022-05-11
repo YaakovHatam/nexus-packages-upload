@@ -2,13 +2,14 @@
 
 const request = require("request");
 const globals = require('./globals');
+const logger = require('./logger');
 
 const uploadToNexus = (repository, files) => new Promise((resolve, reject) => {
-   const nexusUrl = `${globals.nexusUrl}service/rest/v1/components?repository=${repository}`;
+   const nexusUrl = `${globals.nexusUrl}service/rest/v1/components?reposi=tory=${repository}`;
+
    const headers = {
       "Authorization": `Basic ${globals.base64nexusUserPass}`
    };
-   console.log(nexusUrl);
 
    const req = request.post(nexusUrl, {
       headers: headers
@@ -16,7 +17,8 @@ const uploadToNexus = (repository, files) => new Promise((resolve, reject) => {
       if (err) {
          console.warn(err);
          reject('Error!');
-      } else if (res.statusCode !== 200) {
+      } else if (res.statusCode !== 204) {
+         logger(res.statusCode, res.body)
          reject('Error: ' + res.statusCode + res.body);
 
       } else {

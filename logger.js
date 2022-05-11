@@ -1,3 +1,6 @@
 const globals = require('./globals');
 
-export default log = (...args) => globals.debug_mode && console.log(args);
+const log = (...args) => globals.debug_mode && console.log(args);
+
+module.exports = log;
+
