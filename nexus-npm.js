@@ -30,7 +30,7 @@ const isRealPackage = dir => {
          const componentFileContent = require(fullPathName);
          return !!componentFileContent.name && !!componentFileContent.version;
       } catch (ex) {
-         console.log(dir + 'package.json', ex)
+         logger('Corrrupted pacakge?', dir, ex)
          return false;
       }
    }
