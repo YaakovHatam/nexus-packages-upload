@@ -71,11 +71,11 @@ async function createTars(WORKING_DIR, tarsDir) {
          .then(existings => components.filter(c => existings.indexOf(c.fileName) === -1))).then(components => {
             logger('Total', components.length, 'tars');
 
-            returnPromise.all(components.map(c => createTar(tarsDir,
+            return Promise.all(components.map(c => createTar(tarsDir,
                c.fileName,
                c.dir,
                c.componentDirectory)))
-         })
+         });
 }
 
 const upload = async (tarsDir, repository) => dirsAndFilesOps.resolveDirectoryContent(tarsDir, true)
